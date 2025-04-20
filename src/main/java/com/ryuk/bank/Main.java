@@ -1,7 +1,9 @@
 package com.ryuk.bank;
 
+import com.ryuk.bank.tools.DataBaseLinker;
+
 import javafx.application.Application;
-import javafx.geometry.Pos;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,33 +20,35 @@ public class Main extends Application {
 	@SuppressWarnings("exports")
 	@Override
 	public void start(Stage primaryStage) {
-        final VBox loginForm = new VBox(10);
-        loginForm.setAlignment(Pos.CENTER);
-        loginForm.setPrefSize(200, 250);
-        
-        final TextField tf= new TextField();
-        
-        final PasswordField pf= new PasswordField();
-        
-        loginForm.getChildren().addAll(new Label("Identifiant :"), tf, new Label("Mot de passe:"), pf, new Button("Connexion"));
-        
+		final VBox loginForm = new VBox(10);
+		final TextField tf = new TextField();
+		tf.getStyleClass().add("fields");
 
-        final Group loginContainer = new Group(loginForm);
-        final StackPane center = new StackPane(loginContainer);
-        center.setAlignment(Pos.CENTER);
-        final BorderPane root = new BorderPane();
-        root.setCenter(center);
+		final PasswordField pf = new PasswordField();
+		pf.getStyleClass().add("fields");
+		loginForm.getChildren().addAll(new Label("Identifiant :"), tf, new Label("Mot de passe:"), pf, new Label(),
+				new Button("Connexion"));
 
-        final Scene scene = new Scene(root, 800, 500);
-        scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
-        primaryStage.setTitle("Bank App");
-        primaryStage.setMaximized(true);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
+		tf.setOnKeyPressed(e -> {
+			pf.requestFocus();
+		});
 
+		final Group loginContainer = new Group(loginForm);
+		final StackPane center = new StackPane(loginContainer);
+		final BorderPane root = new BorderPane();
+		root.setCenter(center);
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+		Platform.runLater(()-> DataBaseLinker.getConnexion());
+		
+		final Scene scene = new Scene(root, 800, 500);
+		scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
+		primaryStage.setTitle("Bank App");
+		primaryStage.setMaximized(true);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+
+	public static void main(String[] args) {
+		launch(args);
+	}
 }
