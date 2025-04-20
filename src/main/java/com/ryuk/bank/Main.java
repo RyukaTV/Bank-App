@@ -1,7 +1,9 @@
 package com.ryuk.bank;
 
 import com.ryuk.bank.DAO.ClientDAO;
+import com.ryuk.bank.DTO.ClientDTO;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -14,13 +16,22 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Main extends Application {
+	
+	private final BorderPane root = new BorderPane();
 
 	@SuppressWarnings("exports")
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) {				
+		final Scene scene = new Scene(root, 800, 500);
+		scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
+		
 		final VBox loginForm = new VBox(10);
+		final Group loginContainer = new Group(loginForm);
+		final StackPane center = new StackPane(loginContainer);
+		root.setCenter(center);
 		final TextField tf = new TextField();
 		tf.getStyleClass().add("fields");
 
@@ -32,10 +43,22 @@ public class Main extends Application {
 				btn_login);
 		
 		btn_login.setOnAction(e -> {
-			if (!tf.getText().trim().equals("") && !pf.getText().trim().equals("")) {	
-				System.out.println(ClientDAO.getUserbyLoginandMdp(tf.getText(), pf.getText()));
-			}
+		    if (!tf.getText().trim().isEmpty() && !pf.getText().trim().isEmpty()) {
+		    	final ClientDTO client= ClientDAO.getUserbyLoginandMdp(tf.getText(), pf.getText());
+		        if (client != null) {
+		            final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), root);
+		            fadeOut.setFromValue(1.0);
+		            fadeOut.setToValue(0.0);
+		            fadeOut.setOnFinished(ev -> {
+		                root.getChildren().clear();
+		                scene.getStylesheets().remove(getClass().getResource("/css/login.css").toExternalForm());
+		                homePage(client);
+		            });
+		            fadeOut.play();
+		        }
+		    }
 		});
+
 		
 		tf.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.ENTER)) {
@@ -49,20 +72,19 @@ public class Main extends Application {
 				btn_login.fire();
 			}
 		});
-
-		final Group loginContainer = new Group(loginForm);
-		final StackPane center = new StackPane(loginContainer);
-		final BorderPane root = new BorderPane();
-		root.setCenter(center);
-
-		final Scene scene = new Scene(root, 800, 500);
-		scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
+		
+		
 		primaryStage.setTitle("Bank App");
 		primaryStage.setMaximized(true);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-
+	
+	private void homePage(final ClientDTO user) {
+		final Scene scene= root.getScene();	
+		scene.getStylesheets().add(getClass().getResource("/css/home.css").toExternalForm());
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
