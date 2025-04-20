@@ -10,4 +10,7 @@ CREATE TABLE Client(
 	email VARCHAR(255),
 	date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id)
-)
+);
+
+INSERT INTO Client (id, nom, prenom, hashed_password, email) value
+("a3d6d621-16b9-494c-9123-be6ec700a542", "nom", "prenom", SHA2(256, "mdp"), "email@service.com");
