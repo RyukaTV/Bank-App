@@ -13,4 +13,4 @@ CREATE TABLE Client(
 );
 
 INSERT INTO Client (id, nom, prenom, hashed_password, email) value
-("a3d6d621-16b9-494c-9123-be6ec700a542", "nom", "prenom", SHA2(256, "mdp"), "email@service.com");
+("a3d6d621-16b9-494c-9123-be6ec700a542", "nom", "prenom", SHA2("mdp", 256), "email@service.com");
