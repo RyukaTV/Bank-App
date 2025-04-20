@@ -1,0 +1,18 @@
+VBox Label {
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+VBox {
+	-fx-background-color: white; 
+	-fx-padding: 20; -fx-background-radius: 10; 
+	-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 4);
+}
+
+BorderPane {
+    -fx-background-color: linear-gradient(from 0% 100% to 100% 0%, rgba(255,0,0,1), rgba(255,0,0,0.3));
+}
+
+StackPane{
+	-fx-background-color: transparent;
+}
