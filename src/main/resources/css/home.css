@@ -1,3 +1,11 @@
 BorderPane {
-    -fx-background-color: white;
+    -fx-background-color: yellow;
+}
+
+VBox{
+	-fx-background-color: black;
+}
+
+VBox Label{
+	-fx-text-fill: whitesmoke;
 }

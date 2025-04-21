@@ -1,10 +1,13 @@
 package com.ryuk.bank;
 
 import com.ryuk.bank.DAO.ClientDAO;
+import com.ryuk.bank.DAO.CompteBancaireDAO;
 import com.ryuk.bank.DTO.ClientDTO;
+import com.ryuk.bank.DTO.CompteBancaireDTO;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,11 +23,12 @@ import javafx.util.Duration;
 
 public class Main extends Application {
 	
-	private final BorderPane root = new BorderPane();
-
+	private Stage stage;
+	
 	@SuppressWarnings("exports")
 	@Override
-	public void start(Stage primaryStage) {				
+	public void start(Stage primaryStage) {
+		final BorderPane root = new BorderPane();
 		final Scene scene = new Scene(root, 800, 500);
 		scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
 		
@@ -50,8 +54,7 @@ public class Main extends Application {
 		            fadeOut.setFromValue(1.0);
 		            fadeOut.setToValue(0.0);
 		            fadeOut.setOnFinished(ev -> {
-		                root.getChildren().clear();
-		                scene.getStylesheets().remove(getClass().getResource("/css/login.css").toExternalForm());
+		            	root.getChildren().clear();
 		                homePage(client);
 		            });
 		            fadeOut.play();
@@ -75,14 +78,41 @@ public class Main extends Application {
 		
 		
 		primaryStage.setTitle("Bank App");
-		primaryStage.setMaximized(true);
 		primaryStage.setScene(scene);
+		primaryStage.setMaximized(false);
+		primaryStage.setMaximized(true);	
+		this.stage= primaryStage;
 		primaryStage.show();
 	}
 	
 	private void homePage(final ClientDTO user) {
-		final Scene scene= root.getScene();	
+		final BorderPane root = new BorderPane();
+		final Scene scene= new Scene(root, 800, 500);
 		scene.getStylesheets().add(getClass().getResource("/css/home.css").toExternalForm());
+			
+		final VBox aside= new VBox(20);	
+		for (final CompteBancaireDTO compte : CompteBancaireDAO.getComptesByUserId(user.getId())) {
+			aside.getChildren().add(new Label("compte n°"+ compte.getNumeroCompte()));
+		}
+		
+		final Button btn_logout= new Button("déconnexion");
+		btn_logout.setOnAction(e ->{
+			final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), root);
+            fadeOut.setFromValue(1.0);
+            fadeOut.setToValue(0.0);
+            fadeOut.setOnFinished(ev -> {
+            	root.getChildren().clear();
+            	start(stage);
+            });
+            fadeOut.play();
+		});
+		btn_logout.setAlignment(Pos.TOP_LEFT);
+		root.setTop(btn_logout);
+		root.setLeft(aside);
+		
+		stage.setScene(scene);
+		stage.setMaximized(false);
+		stage.setMaximized(true);	
 	}
 	
 	public static void main(String[] args) {
