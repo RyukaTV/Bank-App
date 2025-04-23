@@ -96,6 +96,7 @@ public class Main extends Application {
 		}
 		
 		final Button btn_logout= new Button("déconnexion");
+		btn_logout.getStyleClass().addAll("btn", "btn-outline-light");
 		btn_logout.setOnAction(e ->{
 			final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), root);
             fadeOut.setFromValue(1.0);
@@ -109,6 +110,14 @@ public class Main extends Application {
 		btn_logout.setAlignment(Pos.TOP_LEFT);
 		root.setTop(btn_logout);
 		root.setLeft(aside);
+		
+		
+		final Label lb= new Label("Bienvenue " + user.getPrenom());
+		lb.setStyle("-fx-text-fill: black");
+		lb.setAlignment(Pos.TOP_LEFT);
+		final Group labelContainer = new Group(lb);
+		final StackPane center = new StackPane(labelContainer);
+		root.setCenter(center);
 		
 		stage.setScene(scene);
 		stage.setMaximized(false);

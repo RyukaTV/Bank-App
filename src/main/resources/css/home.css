@@ -9,3 +9,31 @@ VBox{
 VBox Label{
 	-fx-text-fill: whitesmoke;
 }
+
+.btn-outline-light {
+    -fx-text-fill: #f8f9fa; 
+    -fx-background-color: transparent; 
+    -fx-border-color: #f8f9fa; 
+    -fx-border-width: 1px; 
+    -fx-padding: 5 10;
+    -fx-font-size: 14px;
+    -fx-border-radius: 2px;
+}
+
+.btn-outline-light:hover {
+    -fx-text-fill: black; 
+    -fx-background-color: #f8f9fa; 
+    -fx-border-color: #f8f9fa;
+}
+
+.btn {
+    -fx-font-weight: normal;
+    -fx-text-align: center;
+    -fx-padding: 5 10;
+    -fx-font-size: 14px;
+    -fx-border-radius: 2px;
+}
+
+Button{
+	-fx-cursor: hand;
+}
