@@ -7,8 +7,8 @@ VBox {
 	-fx-background-color: white; 
 	-fx-padding: 20; -fx-background-radius: 10; 
 	-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 4);
-	-fx-pref-width: 200;
-	-fx-pref-height: 250;
+	-fx-pref-width: 250;
+	-fx-pref-height: 300;
 	-fx-alignment: center;
 }
 

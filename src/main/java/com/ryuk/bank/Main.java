@@ -6,6 +6,7 @@ import com.ryuk.bank.DTO.ClientDTO;
 import com.ryuk.bank.DTO.CompteBancaireDTO;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -22,16 +23,16 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Main extends Application {
-	
+
 	private Stage stage;
-	
+
 	@SuppressWarnings("exports")
 	@Override
 	public void start(Stage primaryStage) {
 		final BorderPane root = new BorderPane();
 		final Scene scene = new Scene(root, 800, 500);
 		scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
-		
+
 		final VBox loginForm = new VBox(10);
 		final Group loginContainer = new Group(loginForm);
 		final StackPane center = new StackPane(loginContainer);
@@ -43,31 +44,54 @@ public class Main extends Application {
 		pf.getStyleClass().add("fields");
 
 		final Button btn_login = new Button("Connexion");
-		loginForm.getChildren().addAll(new Label("Identifiant :"), tf, new Label("Mot de passe:"), pf, new Label(),
-				btn_login);
-		
+		final Label lb_info = new Label();
+		loginForm.getChildren().addAll(lb_info, new Label("Identifiant :"), tf, new Label("Mot de passe:"), pf,
+				new Label(), btn_login);
+
 		btn_login.setOnAction(e -> {
-		    if (!tf.getText().trim().isEmpty() && !pf.getText().trim().isEmpty()) {
-		    	final ClientDTO client= ClientDAO.getUserbyLoginandMdp(tf.getText(), pf.getText());
-		        if (client != null) {
-		            final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), root);
-		            fadeOut.setFromValue(1.0);
-		            fadeOut.setToValue(0.0);
-		            fadeOut.setOnFinished(ev -> {
-		            	root.getChildren().clear();
-		                homePage(client);
-		            });
-		            fadeOut.play();
-		        }
-		    }
+			tf.requestFocus();
+			try {
+				if (!tf.getText().trim().isEmpty() && !pf.getText().trim().isEmpty()) {
+					final ClientDTO client = ClientDAO.getUserbyLoginandMdp(tf.getText(), pf.getText());
+					if (client == null) {
+						lb_info.setText("Identifiant/mot de passe incorrect");
+						lb_info.setStyle("-fx-text-fill: red;");
+						tf.setText(null);
+						pf.setText(null);
+
+						final PauseTransition pause = new PauseTransition(Duration.seconds(5));
+						pause.setOnFinished(ae -> {
+							final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), lb_info);
+							fadeOut.setFromValue(1.0);
+							fadeOut.setToValue(0.0);
+							fadeOut.setOnFinished(ev -> {
+								lb_info.setText(null);
+								lb_info.setOpacity(1.0);
+							});
+							fadeOut.play();
+						});
+						pause.play();
+						return;
+					}
+					final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), root);
+					fadeOut.setFromValue(1.0);
+					fadeOut.setToValue(0.0);
+					fadeOut.setOnFinished(ev -> {
+						root.getChildren().clear();
+						homePage(client);
+					});
+					fadeOut.play();
+				}
+			} catch (Exception ex) {
+				// TODO: handle exception
+			}
 		});
 
-		
 		tf.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.ENTER)) {
 				pf.requestFocus();
 			}
-			
+
 		});
 		pf.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.ENTER)) {
@@ -75,55 +99,53 @@ public class Main extends Application {
 				btn_login.fire();
 			}
 		});
-		
-		
+
 		primaryStage.setTitle("Bank App");
 		primaryStage.setScene(scene);
 		primaryStage.setMaximized(false);
-		primaryStage.setMaximized(true);	
-		this.stage= primaryStage;
+		primaryStage.setMaximized(true);
+		this.stage = primaryStage;
 		primaryStage.show();
 	}
-	
+
 	private void homePage(final ClientDTO user) {
 		final BorderPane root = new BorderPane();
-		final Scene scene= new Scene(root, 800, 500);
+		final Scene scene = new Scene(root, 800, 500);
 		scene.getStylesheets().add(getClass().getResource("/css/home.css").toExternalForm());
-			
-		final VBox aside= new VBox(20);	
+
+		final VBox aside = new VBox(20);
 		for (final CompteBancaireDTO compte : CompteBancaireDAO.getComptesByUserId(user.getId())) {
-			aside.getChildren().add(new Label("compte n°"+ compte.getNumeroCompte()));
+			aside.getChildren().add(new Label("compte n°" + compte.getNumeroCompte()));
 		}
-		
-		final Button btn_logout= new Button("déconnexion");
+
+		final Button btn_logout = new Button("déconnexion");
 		btn_logout.getStyleClass().addAll("btn", "btn-outline-light");
-		btn_logout.setOnAction(e ->{
+		btn_logout.setOnAction(e -> {
 			final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), root);
-            fadeOut.setFromValue(1.0);
-            fadeOut.setToValue(0.0);
-            fadeOut.setOnFinished(ev -> {
-            	root.getChildren().clear();
-            	start(stage);
-            });
-            fadeOut.play();
+			fadeOut.setFromValue(1.0);
+			fadeOut.setToValue(0.0);
+			fadeOut.setOnFinished(ev -> {
+				root.getChildren().clear();
+				start(stage);
+			});
+			fadeOut.play();
 		});
 		btn_logout.setAlignment(Pos.TOP_LEFT);
 		root.setTop(btn_logout);
 		root.setLeft(aside);
-		
-		
-		final Label lb= new Label("Bienvenue " + user.getPrenom());
+
+		final Label lb = new Label("Bienvenue " + user.getPrenom());
 		lb.setStyle("-fx-text-fill: black");
 		lb.setAlignment(Pos.TOP_LEFT);
 		final Group labelContainer = new Group(lb);
 		final StackPane center = new StackPane(labelContainer);
 		root.setCenter(center);
-		
+
 		stage.setScene(scene);
 		stage.setMaximized(false);
-		stage.setMaximized(true);	
+		stage.setMaximized(true);
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
