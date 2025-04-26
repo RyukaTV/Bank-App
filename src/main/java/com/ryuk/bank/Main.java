@@ -118,7 +118,7 @@ public class Main extends Application {
 
 		
 		final Button btn_logout = new Button("Déconnexion");
-		btn_logout.getStyleClass().addAll("btn", "btn-outline-light");
+		btn_logout.getStyleClass().addAll("btn", "btn-outline-dark");
 		VBox.setMargin(btn_logout, new Insets(20, 0, 0, 10));
 
 		btn_logout.setOnAction(e -> {

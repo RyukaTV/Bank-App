@@ -4,7 +4,7 @@ BorderPane {
 
 VBox{
 	-fx-background-radius: 0 20px 20px 0;
-	-fx-background-color: pink;
+	-fx-background-color: whitesmoke;
 	-fx-border-color: black;
 	-fx-border-radius: 0 20px 20px 0;
 	-fx-border-width: 1px;
@@ -32,6 +32,22 @@ VBox Label:hover{
     -fx-text-fill: black; 
     -fx-background-color: #f8f9fa; 
     -fx-border-color: #f8f9fa;
+}
+
+.btn-outline-dark {
+    -fx-text-fill: black; 
+    -fx-background-color: transparent; 
+    -fx-border-color: black; 
+    -fx-border-width: 1px; 
+    -fx-padding: 5 10;
+    -fx-font-size: 14px;
+    -fx-border-radius: 5px;
+}
+
+.btn-outline-dark:hover {
+    -fx-text-fill: whitesmoke; 
+    -fx-background-color: black; 
+    -fx-border-color: black;
 }
 
 .btn {
