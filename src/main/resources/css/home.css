@@ -3,11 +3,19 @@ BorderPane {
 }
 
 VBox{
-	-fx-background-color: black;
+	-fx-background-radius: 0 20px 20px 0;
+	-fx-background-color: pink;
+	-fx-border-color: black;
+	-fx-border-radius: 0 20px 20px 0;
+	-fx-border-width: 1px;
 }
 
 VBox Label{
-	-fx-text-fill: whitesmoke;
+	-fx-text-fill: black;
+}
+
+VBox Label:hover{
+	-fx-cursor: hand;
 }
 
 .btn-outline-light {
@@ -17,7 +25,7 @@ VBox Label{
     -fx-border-width: 1px; 
     -fx-padding: 5 10;
     -fx-font-size: 14px;
-    -fx-border-radius: 2px;
+    -fx-border-radius: 5px;
 }
 
 .btn-outline-light:hover {
@@ -31,7 +39,7 @@ VBox Label{
     -fx-text-align: center;
     -fx-padding: 5 10;
     -fx-font-size: 14px;
-    -fx-border-radius: 2px;
+    -fx-border-radius: 5px;
 }
 
 Button{

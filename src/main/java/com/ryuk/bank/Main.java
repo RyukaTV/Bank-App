@@ -8,14 +8,18 @@ import com.ryuk.bank.DTO.CompteBancaireDTO;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -49,7 +53,6 @@ public class Main extends Application {
 				new Label(), btn_login);
 
 		btn_login.setOnAction(e -> {
-			tf.requestFocus();
 			try {
 				if (!tf.getText().trim().isEmpty() && !pf.getText().trim().isEmpty()) {
 					final ClientDTO client = ClientDAO.getUserbyLoginandMdp(tf.getText(), pf.getText());
@@ -58,7 +61,7 @@ public class Main extends Application {
 						lb_info.setStyle("-fx-text-fill: red;");
 						tf.setText(null);
 						pf.setText(null);
-
+						tf.requestFocus();
 						final PauseTransition pause = new PauseTransition(Duration.seconds(5));
 						pause.setOnFinished(ae -> {
 							final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), lb_info);
@@ -113,13 +116,11 @@ public class Main extends Application {
 		final Scene scene = new Scene(root, 800, 500);
 		scene.getStylesheets().add(getClass().getResource("/css/home.css").toExternalForm());
 
-		final VBox aside = new VBox(20);
-		for (final CompteBancaireDTO compte : CompteBancaireDAO.getComptesByUserId(user.getId())) {
-			aside.getChildren().add(new Label("compte n°" + compte.getNumeroCompte()));
-		}
-
-		final Button btn_logout = new Button("déconnexion");
+		
+		final Button btn_logout = new Button("Déconnexion");
 		btn_logout.getStyleClass().addAll("btn", "btn-outline-light");
+		VBox.setMargin(btn_logout, new Insets(20, 0, 0, 10));
+
 		btn_logout.setOnAction(e -> {
 			final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), root);
 			fadeOut.setFromValue(1.0);
@@ -131,9 +132,37 @@ public class Main extends Application {
 			fadeOut.play();
 		});
 		btn_logout.setAlignment(Pos.TOP_LEFT);
-		root.setTop(btn_logout);
+		
+		final VBox aside = new VBox(20);
+		aside.getChildren().add(btn_logout);
+		for (final CompteBancaireDTO compte : CompteBancaireDAO.getComptesByUserId(user.getId())) {
+			aside.getChildren().add(new Label("compte n°" + compte.getNumeroCompte()));
+		}
+
+		
 		root.setLeft(aside);
 
+		final EventHandler<MouseEvent> event= new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(final MouseEvent event) {
+				// TODO Auto-generated method stub
+				final Label lb= new Label(((Label) event.getSource()).getText());
+				lb.setStyle("-fx-text-fill: black");
+				lb.setAlignment(Pos.TOP_LEFT);
+				final Group labelContainer = new Group(lb);
+				final StackPane center = new StackPane(labelContainer);
+				root.setCenter(center);
+			}
+			
+		};
+		
+		for (final Node item : aside.getChildren()) {
+			if (!(item instanceof Label)) {
+				continue;
+			}
+			item.setOnMouseClicked(event);
+		}
+		
 		final Label lb = new Label("Bienvenue " + user.getPrenom());
 		lb.setStyle("-fx-text-fill: black");
 		lb.setAlignment(Pos.TOP_LEFT);
