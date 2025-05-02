@@ -1,12 +1,12 @@
 BorderPane {
-    -fx-background-color: yellow;
+    -fx-background-color: lightgray;
 }
 
 VBox{
-	-fx-background-radius: 0 20px 20px 0;
+	-fx-background-radius: 0 25px 25px 0;
 	-fx-background-color: whitesmoke;
 	-fx-border-color: black;
-	-fx-border-radius: 0 20px 20px 0;
+	-fx-border-radius: 0 25px 25px 0;
 	-fx-border-width: 1px;
 }
 

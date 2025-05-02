@@ -146,12 +146,18 @@ public class Main extends Application {
 			@Override
 			public void handle(final MouseEvent event) {
 				// TODO Auto-generated method stub
-				final Label lb= new Label(((Label) event.getSource()).getText());
-				lb.setStyle("-fx-text-fill: black");
-				lb.setAlignment(Pos.TOP_LEFT);
-				final Group labelContainer = new Group(lb);
-				final StackPane center = new StackPane(labelContainer);
-				root.setCenter(center);
+				final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), root.getCenter());
+				fadeOut.setFromValue(1.0);
+				fadeOut.setToValue(0.0);
+				fadeOut.setOnFinished(ev -> {
+					final Label lb= new Label(((Label) event.getSource()).getText());
+					lb.setStyle("-fx-text-fill: black");
+					lb.setAlignment(Pos.TOP_LEFT);
+					final Group labelContainer = new Group(lb);
+					final StackPane center = new StackPane(labelContainer);
+					root.setCenter(center);
+				});
+				fadeOut.play();								
 			}
 			
 		};

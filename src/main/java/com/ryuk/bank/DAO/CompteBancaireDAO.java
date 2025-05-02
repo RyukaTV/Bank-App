@@ -32,7 +32,7 @@ public class CompteBancaireDAO {
 				list.add(dto);
 			}
 			return list;
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
