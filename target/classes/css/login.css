@@ -33,3 +33,7 @@ StackPane{
 Button{
 	-fx-cursor: hand;
 }
+
+.label-error{
+	-fx-text-fill: red;
+}

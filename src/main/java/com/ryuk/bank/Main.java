@@ -29,7 +29,7 @@ import javafx.util.Duration;
 public class Main extends Application {
 
 	private Stage stage;
-	private final Insets margin= new Insets(40, 0, 0, 20);
+	private final Insets marginLabel= new Insets(40, 0, 0, 20);
 
 	@SuppressWarnings("exports")
 	@Override
@@ -59,7 +59,7 @@ public class Main extends Application {
 					final ClientDTO client = ClientDAO.getUserbyLoginandMdp(tf.getText(), pf.getText());
 					if (client == null) {
 						lb_info.setText("Identifiant/mot de passe incorrect");
-						lb_info.setStyle("-fx-text-fill: red;");
+						lb_info.getStyleClass().add("label-error");
 						tf.setText(null);
 						pf.setText(null);
 						tf.requestFocus();
@@ -132,7 +132,7 @@ public class Main extends Application {
 			});
 			fadeOut.play();
 		});
-		btn_logout.setAlignment(Pos.TOP_LEFT);
+		btn_logout.setAlignment(Pos.TOP_CENTER);
 		
 		final VBox aside = new VBox(20);
 		aside.getChildren().add(btn_logout);
@@ -156,7 +156,7 @@ public class Main extends Application {
 					final Group labelContainer = new Group(lb);
 					final StackPane center = new StackPane(labelContainer);
 					StackPane.setAlignment(labelContainer, Pos.TOP_LEFT); 
-					StackPane.setMargin(labelContainer, margin);
+					StackPane.setMargin(labelContainer, marginLabel);
 					root.setCenter(center);
 				});
 				fadeOut.play();								
@@ -176,7 +176,7 @@ public class Main extends Application {
 		final Group labelContainer = new Group(lb);
 		final StackPane center = new StackPane(labelContainer);
 		StackPane.setAlignment(labelContainer, Pos.TOP_LEFT); 
-		StackPane.setMargin(labelContainer, margin);
+		StackPane.setMargin(labelContainer, marginLabel);
 		root.setCenter(center);
 
 		stage.setScene(scene);
