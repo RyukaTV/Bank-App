@@ -61,3 +61,10 @@ VBox Label:hover{
 Button{
 	-fx-cursor: hand;
 }
+
+
+.label-title{
+	-fx-text-fill: black; 
+	-fx-font-style: italic; 
+	-fx-font-size: 12;
+}

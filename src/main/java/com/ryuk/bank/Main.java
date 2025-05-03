@@ -29,6 +29,7 @@ import javafx.util.Duration;
 public class Main extends Application {
 
 	private Stage stage;
+	private final Insets margin= new Insets(40, 0, 0, 20);
 
 	@SuppressWarnings("exports")
 	@Override
@@ -85,7 +86,7 @@ public class Main extends Application {
 					});
 					fadeOut.play();
 				}
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				// TODO: handle exception
 			}
 		});
@@ -151,10 +152,11 @@ public class Main extends Application {
 				fadeOut.setToValue(0.0);
 				fadeOut.setOnFinished(ev -> {
 					final Label lb= new Label(((Label) event.getSource()).getText());
-					lb.setStyle("-fx-text-fill: black");
-					lb.setAlignment(Pos.TOP_LEFT);
+					lb.getStyleClass().add("label-title");
 					final Group labelContainer = new Group(lb);
 					final StackPane center = new StackPane(labelContainer);
+					StackPane.setAlignment(labelContainer, Pos.TOP_LEFT); 
+					StackPane.setMargin(labelContainer, margin);
 					root.setCenter(center);
 				});
 				fadeOut.play();								
@@ -170,10 +172,11 @@ public class Main extends Application {
 		}
 		
 		final Label lb = new Label("Bienvenue " + user.getPrenom());
-		lb.setStyle("-fx-text-fill: black");
-		lb.setAlignment(Pos.TOP_LEFT);
+		lb.getStyleClass().add("label-title");
 		final Group labelContainer = new Group(lb);
 		final StackPane center = new StackPane(labelContainer);
+		StackPane.setAlignment(labelContainer, Pos.TOP_LEFT); 
+		StackPane.setMargin(labelContainer, margin);
 		root.setCenter(center);
 
 		stage.setScene(scene);
@@ -181,7 +184,7 @@ public class Main extends Application {
 		stage.setMaximized(true);
 	}
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		launch(args);
 	}
 }
