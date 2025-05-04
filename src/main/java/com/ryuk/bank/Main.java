@@ -138,6 +138,7 @@ public class Main extends Application {
 		btn_logout.setAlignment(Pos.TOP_CENTER);
 		
 		final VBox aside = new VBox(20);
+		aside.getStyleClass().add("aside");
 		aside.getChildren().add(btn_logout);
 		for (final CompteBancaireDTO compte : CompteBancaireDAO.getComptesByUserId(user.getId())) {
 			aside.getChildren().add(new Label("compte n°" + compte.getNumeroCompte()));
@@ -191,7 +192,16 @@ public class Main extends Application {
 			}
 		    circle.getData().add(new PieChart.Data(compte.getNumeroCompte(), compte.getSolde()));
 		}
-		center.getChildren().add(new Group(circle));
+		
+		final Label title = new Label("Gestions des comptes");
+		title.getStyleClass().add("piechart-Legend");
+		final VBox chartBox = new VBox(10, title, circle);
+		chartBox.getStyleClass().add("container-piechart");
+		//chartBox.setAlignment(Pos.TOP_CENTER);
+		
+		final Group grp= new Group(chartBox);
+		StackPane.setAlignment(grp, Pos.TOP_RIGHT);
+		center.getChildren().add(grp);
 		root.setCenter(center);
 
 		stage.setScene(scene);

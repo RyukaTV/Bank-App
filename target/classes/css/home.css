@@ -2,7 +2,7 @@ BorderPane {
     -fx-background-color: lightgray;
 }
 
-VBox{
+.aside{
 	-fx-background-radius: 0 25px 25px 0;
 	-fx-background-color: whitesmoke;
 	-fx-border-color: black;
@@ -10,11 +10,11 @@ VBox{
 	-fx-border-width: 1px;
 }
 
-VBox Label{
+.aside Label{
 	-fx-text-fill: black;
 }
 
-VBox Label:hover{
+.aside Label:hover{
 	-fx-cursor: hand;
 }
 
@@ -66,4 +66,18 @@ Button{
 	-fx-text-fill: black; 
 	-fx-font-style: italic; 
 	-fx-font-size: 12;
+}
+
+.piechart-Legend{
+	-fx-font-size: 18px; 
+	-fx-font-weight: bold;
+}
+
+.container-piechart{
+	-fx-alignment: TOP_CENTER;
+	-fx-background-radius: 0 0 0 25px;
+	-fx-background-color: whitesmoke;
+	-fx-border-color: black;
+	-fx-border-radius: 0 0 0 25px;
+	-fx-border-width: 1px;
 }
