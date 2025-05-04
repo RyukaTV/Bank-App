@@ -1,5 +1,7 @@
 package com.ryuk.bank;
 
+import java.util.List;
+
 import com.ryuk.bank.DAO.ClientDAO;
 import com.ryuk.bank.DAO.CompteBancaireDAO;
 import com.ryuk.bank.DTO.ClientDTO;
@@ -14,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -157,6 +160,7 @@ public class Main extends Application {
 					final StackPane center = new StackPane(labelContainer);
 					StackPane.setAlignment(labelContainer, Pos.TOP_LEFT); 
 					StackPane.setMargin(labelContainer, marginLabel);
+					
 					root.setCenter(center);
 				});
 				fadeOut.play();								
@@ -177,6 +181,17 @@ public class Main extends Application {
 		final StackPane center = new StackPane(labelContainer);
 		StackPane.setAlignment(labelContainer, Pos.TOP_LEFT); 
 		StackPane.setMargin(labelContainer, marginLabel);
+		
+		final PieChart circle = new PieChart();
+		final List<CompteBancaireDTO> accounts = CompteBancaireDAO.getComptesByUserId(user.getId());
+
+		for (final CompteBancaireDTO compte : accounts) {
+			if (compte.getStatus().equals("inactif")) {
+				continue;
+			}
+		    circle.getData().add(new PieChart.Data(compte.getNumeroCompte(), compte.getSolde()));
+		}
+		center.getChildren().add(new Group(circle));
 		root.setCenter(center);
 
 		stage.setScene(scene);
