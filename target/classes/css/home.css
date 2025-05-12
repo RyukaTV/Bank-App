@@ -47,20 +47,20 @@ BorderPane {
     -fx-border-color: #f8f9fa;
 }
 
-.btn-outline-dark {
-    -fx-text-fill: black; 
+.btn-outline-darkred {
+    -fx-text-fill: darkred; 
     -fx-background-color: transparent; 
-    -fx-border-color: black; 
+    -fx-border-color: darkred; 
     -fx-border-width: 1px; 
     -fx-padding: 5 10;
     -fx-font-size: 14px;
     -fx-border-radius: 5px;
 }
 
-.btn-outline-dark:hover {
+.btn-outline-darkred:hover {
     -fx-text-fill: whitesmoke; 
-    -fx-background-color: black; 
-    -fx-border-color: black;
+    -fx-background-color: darkred; 
+    -fx-border-color: darkred;
 }
 
 .btn {

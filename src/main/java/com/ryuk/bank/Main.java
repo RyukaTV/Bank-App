@@ -125,7 +125,7 @@ public class Main extends Application {
 
 		
 		final Button btn_logout = new Button("Déconnexion");
-		btn_logout.getStyleClass().addAll("btn", "btn-outline-dark");
+		btn_logout.getStyleClass().addAll("btn", "btn-outline-darkred");
 		btn_logout.setOnAction(e -> {
 			final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), root);
 			fadeOut.setFromValue(1.0);
