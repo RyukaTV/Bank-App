@@ -117,7 +117,7 @@ public class Main extends Application {
 		this.stage = primaryStage;
 		primaryStage.show();
 	}
-
+	
 	private void homePage(final ClientDTO user) {
 		final BorderPane root = new BorderPane();
 		final Scene scene = new Scene(root, 800, 500);
@@ -142,6 +142,15 @@ public class Main extends Application {
 		final VBox aside= new VBox(20);		
 		final Label lb_accueil= new Label("Accueil");
 		final HBox containerLabel= new HBox(lb_accueil);
+		lb_accueil.setOnMouseClicked(e->{
+			final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), root.getCenter());
+			fadeOut.setFromValue(1.0);
+			fadeOut.setToValue(0.0);
+			fadeOut.setOnFinished(ev -> {
+				accueil(user, root);
+			});
+			fadeOut.play();
+		});
 		
 		containerAside.getStyleClass().add("container-aside");
 		aside.getStyleClass().add("aside");	
@@ -189,6 +198,14 @@ public class Main extends Application {
 			item.setOnMouseClicked(event);
 		}
 		
+		accueil(user, root);
+		
+		stage.setScene(scene);
+		stage.setMaximized(false);
+		stage.setMaximized(true);
+	}
+
+	private void accueil(final ClientDTO user, final BorderPane root) {
 		final Label lb = new Label("Bienvenue " + user.getPrenom());
 		lb.getStyleClass().add("label-title");
 		final Group labelContainer = new Group(lb);
@@ -215,10 +232,6 @@ public class Main extends Application {
 		StackPane.setAlignment(grp, Pos.TOP_RIGHT);
 		center.getChildren().add(grp);
 		root.setCenter(center);
-
-		stage.setScene(scene);
-		stage.setMaximized(false);
-		stage.setMaximized(true);
 	}
 
 	public static void main(final String[] args) {
