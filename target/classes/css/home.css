@@ -2,7 +2,7 @@ BorderPane {
     -fx-background-color: lightgray;
 }
 
-.aside{
+.container-aside{
 	-fx-background-radius: 0 25px 25px 0;
 	-fx-background-color: whitesmoke;
 	-fx-border-color: black;
@@ -10,12 +10,25 @@ BorderPane {
 	-fx-border-width: 1px;
 }
 
-.aside Label{
+.bottom-aside{
+	-fx-alignment: bottom-center;
+}
+
+.aside HBox Label{
+	-fx-font-weight: bold;
+}
+
+.aside Label, .aside HBox{
 	-fx-text-fill: black;
+	-fx-alignment: center;
 }
 
 .aside Label:hover{
 	-fx-cursor: hand;
+}
+
+.aside{
+	-fx-height: 100%;
 }
 
 .btn-outline-light {

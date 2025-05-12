@@ -24,6 +24,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -123,8 +126,6 @@ public class Main extends Application {
 		
 		final Button btn_logout = new Button("Déconnexion");
 		btn_logout.getStyleClass().addAll("btn", "btn-outline-dark");
-		VBox.setMargin(btn_logout, new Insets(20, 0, 0, 10));
-
 		btn_logout.setOnAction(e -> {
 			final FadeTransition fadeOut = new FadeTransition(Duration.millis(500), root);
 			fadeOut.setFromValue(1.0);
@@ -137,15 +138,27 @@ public class Main extends Application {
 		});
 		btn_logout.setAlignment(Pos.TOP_CENTER);
 		
-		final VBox aside = new VBox(20);
-		aside.getStyleClass().add("aside");
-		aside.getChildren().add(btn_logout);
-		for (final CompteBancaireDTO compte : CompteBancaireDAO.getComptesByUserId(user.getId())) {
-			aside.getChildren().add(new Label("compte n°" + compte.getNumeroCompte()));
-		}
-
+		final VBox containerAside = new VBox();
+		final VBox aside= new VBox(20);		
+		final Label lb_accueil= new Label("Accueil");
+		final HBox containerLabel= new HBox(lb_accueil);
 		
-		root.setLeft(aside);
+		containerAside.getStyleClass().add("container-aside");
+		aside.getStyleClass().add("aside");	
+		aside.getChildren().add(containerLabel);
+		for (final CompteBancaireDTO compte : CompteBancaireDAO.getComptesByUserId(user.getId())) {
+			final Label lb_compte= new Label("compte n°" + compte.getNumeroCompte());
+			aside.getChildren().add(lb_compte);
+			VBox.setMargin(aside.getChildren().getLast(), new Insets(0, 10, 0, 10));
+		}
+		VBox.setMargin(containerLabel, new Insets(20, 0, 0, 0));
+		final HBox bottomAside= new HBox(btn_logout);
+		bottomAside.getStyleClass().add("bottom-aside");
+		VBox.setMargin(bottomAside, new Insets(0, 0, 20, 0));
+		final Region spacer = new Region();
+		VBox.setVgrow(spacer, Priority.ALWAYS);
+		containerAside.getChildren().addAll(aside, spacer, bottomAside);
+		root.setLeft(containerAside);
 
 		final EventHandler<MouseEvent> event= new EventHandler<MouseEvent>() {
 			@Override
@@ -197,7 +210,6 @@ public class Main extends Application {
 		title.getStyleClass().add("piechart-Legend");
 		final VBox chartBox = new VBox(10, title, circle);
 		chartBox.getStyleClass().add("container-piechart");
-		//chartBox.setAlignment(Pos.TOP_CENTER);
 		
 		final Group grp= new Group(chartBox);
 		StackPane.setAlignment(grp, Pos.TOP_RIGHT);
